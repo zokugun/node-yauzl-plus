@@ -1,6 +1,6 @@
 {
 	"name": "@zokugun/yauzl",
-	"description": "",
+	"description": "Promise-friendly, Result-first, fully typed ZIP steam reader",
 	"version": "0.0.0",
 	"author": {
 		"name": "Baptiste Augrain",
@@ -13,7 +13,7 @@
 		"url": "git+https://github.com/zokugun/node-yauzl.git"
 	},
 	"bugs": {
-		"url": "https://github.com/zokugun/node-yauzl/issues"
+		"url": "https://github.com/zokugun/node-yauzl/discussions/categories/issue-triage"
 	},
 	"type": "module",
 	"main": "lib/index.js",

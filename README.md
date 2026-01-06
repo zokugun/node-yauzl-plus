@@ -7,7 +7,7 @@
 [![Donation](https://img.shields.io/badge/donate-liberapay-green)](https://liberapay.com/daiyam/donate)
 [![Donation](https://img.shields.io/badge/donate-paypal-green)](https://paypal.me/daiyam99)
 
-> Promise-friendly, fully typed ZIP reader for Node.js that keeps large archives off disk and outside memory.
+> Promise-friendly, Result-first, fully typed ZIP reader that keeps large archives off disk and outside memory.
 
 About this project
 ------------------
