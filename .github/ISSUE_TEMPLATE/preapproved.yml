@@ -5,14 +5,14 @@ body:
   - type: markdown
     attributes:
       value: |-
-        This project doesn't accept Issues directly. Please prefer GitHub Discussions. See: https://github.com/zokugun/node-yauzl/issues/1
+        This project doesn't accept Issues directly. Please prefer GitHub Discussions. See: https://github.com/zokugun/node-yauzl-plus/issues/1
   - type: checkboxes
     id: checkbox
     attributes:
       label: 'Sanity check'
       options:
         - label: |-
-            I read https://github.com/zokugun/node-yauzl/issues/1
+            I read https://github.com/zokugun/node-yauzl-plus/issues/1
           required: true
   - type: textarea
     id: body

@@ -1,5 +1,5 @@
 {
-	"name": "@zokugun/yauzl",
+	"name": "@zokugun/yauzl-plus",
 	"description": "Promise-friendly, Result-first, fully typed ZIP steam reader",
 	"version": "0.0.0",
 	"author": {
@@ -7,13 +7,13 @@
 		"email": "daiyam@zokugun.org"
 	},
 	"license": "MIT",
-	"homepage": "https://github.com/zokugun/node-yauzl",
+	"homepage": "https://github.com/zokugun/node-yauzl-plus",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/zokugun/node-yauzl.git"
+		"url": "git+https://github.com/zokugun/node-yauzl-plus.git"
 	},
 	"bugs": {
-		"url": "https://github.com/zokugun/node-yauzl/discussions/categories/issue-triage"
+		"url": "https://github.com/zokugun/node-yauzl-plus/discussions/categories/issue-triage"
 	},
 	"type": "module",
 	"main": "lib/cjs/index.cjs",

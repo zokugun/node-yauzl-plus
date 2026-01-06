@@ -1,8 +1,8 @@
-[@zokugun/yauzl](https://github.com/zokugun/node-yauzl)
+[@zokugun/yauzl-plus](https://github.com/zokugun/node-yauzl-plus)
 =======================================================
 
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![NPM Version](https://img.shields.io/npm/v/@zokugun/yauzl.svg?colorB=green)](https://www.npmjs.com/package/@zokugun/yauzl)
+[![NPM Version](https://img.shields.io/npm/v/@zokugun/yauzl-plus.svg?colorB=green)](https://www.npmjs.com/package/@zokugun/yauzl-plus)
 [![Donation](https://img.shields.io/badge/donate-ko--fi-green)](https://ko-fi.com/daiyam)
 [![Donation](https://img.shields.io/badge/donate-liberapay-green)](https://liberapay.com/daiyam/donate)
 [![Donation](https://img.shields.io/badge/donate-paypal-green)](https://paypal.me/daiyam99)
@@ -12,7 +12,7 @@
 About this project
 ------------------
 
-`@zokugun/yauzl` is a TypeScript-first port and fork of [`overlookmotel/yauzl-promise`](https://github.com/overlookmotel/yauzl-promise). The upstream project provides a Promise wrapper over the battle-tested [`thejoshwolfe/yauzl`](https://github.com/thejoshwolfe/yauzl) ZIP reader. This repository rebuilds that API:
+`@zokugun/yauzl-plus` is a TypeScript-first port and fork of [`overlookmotel/yauzl-promise`](https://github.com/overlookmotel/yauzl-promise). The upstream project provides a Promise wrapper over the battle-tested [`thejoshwolfe/yauzl`](https://github.com/thejoshwolfe/yauzl) ZIP reader. This repository rebuilds that API:
 
 - written entirely in TypeScript with strict types;
 - shipped as native ES modules.
@@ -30,7 +30,7 @@ Install
 -------
 
 ```bash
-npm add @zokugun/yauzl
+npm add @zokugun/yauzl-plus
 ```
 
 Example
@@ -40,7 +40,7 @@ Example
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { err, type Result, stringifyError, xtry, xdefer } from '@zokugun/xtry/async';
-import { open } from '@zokugun/yauzl';
+import { open } from '@zokugun/yauzl-plus';
 
 async function run(): Promise<Result<void, string>> {
     const zipResult = await open('fixtures/archive.zip', {

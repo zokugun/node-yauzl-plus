@@ -4,7 +4,7 @@ body:
     attributes:
       value: |-
         > [!IMPORTANT]
-        > Please read through [the Discussion rules](https://github.com/zokugun/node-yauzl/discussions/1) and check for both existing [Discussions](https://github.com/zokugun/node-yauzl/discussions?discussions_q=) and [Issues](https://github.com/zokugun/node-yauzl/issues?q=sort%3Areactions-desc) prior to opening a new Discussion.
+        > Please read through [the Discussion rules](https://github.com/zokugun/node-yauzl-plus/discussions/1) and check for both existing [Discussions](https://github.com/zokugun/node-yauzl-plus/discussions?discussions_q=) and [Issues](https://github.com/zokugun/node-yauzl-plus/issues?q=sort%3Areactions-desc) prior to opening a new Discussion.
   - type: markdown
     attributes:
       value: "# Issue Details"
@@ -48,7 +48,7 @@ body:
       value: |-
         # User Acknowledgements
         > [!TIP]
-        > Use these links to review the existing [Discussions](https://github.com/zokugun/node-yauzl/discussions?discussions_q=) and [Issues](https://github.com/zokugun/node-yauzl/issues?q=sort%3Areactions-desc).
+        > Use these links to review the existing [Discussions](https://github.com/zokugun/node-yauzl-plus/discussions?discussions_q=) and [Issues](https://github.com/zokugun/node-yauzl-plus/issues?q=sort%3Areactions-desc).
   - type: checkboxes
     attributes:
       label: "I acknowledge that:"
