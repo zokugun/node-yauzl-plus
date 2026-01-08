@@ -5,6 +5,8 @@
 !LICENSE
 !README.md
 !lib/**/*.js
-!lib/**/*.d.ts
 !lib/**/*.cjs
+!lib/**/*.mjs
+!lib/**/*.d.ts
 !lib/**/*.d.cts
+!lib/**/*.d.mts

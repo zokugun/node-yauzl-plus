@@ -17,12 +17,15 @@
 	},
 	"type": "module",
 	"main": "lib/cjs/index.cjs",
-	"module": "lib/esm/index.js",
+	"module": "lib/esm/index.mjs",
 	"scripts": {
-		"build": "tsdown",
+		"build": "npm run clean && npm run build:lib",
+		"build:lib": "tsc-leda generate",
+		"build:package": "tsc-leda update-package",
 		"clean": "rimraf lib .test",
 		"commit": "cz",
-		"compile": "tsc -p src",
+		"compile:src": "tsc -p src",
+		"compile:test": "tsc -p test",
 		"lint": "xo",
 		"lint:fix": "xo --fix",
 		"prepack": "npm run build",
@@ -30,12 +33,13 @@
 		"release": "release-it",
 		"test": "vitest run",
 		"test:mac-big": "vitest run test/mac-big.test.ts",
-		"watch:source": "tsc-watch -p src",
-		"watch:test": "vitest"
+		"test:watch": "vitest",
+		"watch:src": "tsc-watch -p src",
+		"watch:test": "tsc-watch -p test"
 	},
 	"dependencies": {
 		"@zokugun/is-it-type": "^0.3.0",
-		"@zokugun/xtry": "^0.6.3",
+		"@zokugun/xtry": "^0.6.4",
 		"fs-extra": "^11.3.3"
 	},
 	"devDependencies": {
@@ -43,6 +47,7 @@
 		"@commitlint/config-conventional": "^19.7.1",
 		"@types/fs-extra": "^11.0.4",
 		"@types/node": "^20.14.8",
+		"@zokugun/tsc-leda": "^0.1.0",
 		"commitizen": "^4.3.1",
 		"fixpack": "^4.0.0",
 		"globby": "^16.1.0",
@@ -50,7 +55,6 @@
 		"lint-staged": "^16.1.4",
 		"release-it": "^18.1.2",
 		"tsc-watch": "^6.3.0",
-		"tsdown": "^0.12.9",
 		"typescript": "^5.7.3",
 		"vitest": "^4.0.16",
 		"xo": "0.60.0"
