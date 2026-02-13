@@ -16,8 +16,21 @@
 		"url": "https://github.com/zokugun/node-yauzl-plus/discussions/categories/issue-triage"
 	},
 	"type": "module",
+	"exports": {
+		".": {
+			"import": "./lib/esm/index.mjs",
+			"require": "./lib/cjs/index.cjs"
+		}
+	},
 	"main": "lib/cjs/index.cjs",
 	"module": "lib/esm/index.mjs",
+	"typesVersions": {
+		"*": {
+			".": [
+				"./lib/cjs/index.d.cts"
+			]
+		}
+	},
 	"scripts": {
 		"build": "npm run clean && npm run build:lib",
 		"build:lib": "tsc-leda generate",
