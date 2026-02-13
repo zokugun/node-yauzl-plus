@@ -46,20 +46,6 @@ const customMatchers = {
 			message: () => `${pass ? 'Expected' : 'Did not expect'} ${formatValue(received)} to be a string`,
 		};
 	},
-	// toBeTrue(received: unknown): MatchResult {
-	// 	const pass = received === true;
-	// 	return {
-	// 		pass,
-	// 		message: () => `${pass ? 'Expected' : 'Did not expect'} ${formatValue(received)} to be true`,
-	// 	};
-	// },
-	// toBeFalse(received: unknown): MatchResult {
-	// 	const pass = received === false;
-	// 	return {
-	// 		pass,
-	// 		message: () => `${pass ? 'Expected' : 'Did not expect'} ${formatValue(received)} to be false`,
-	// 	};
-	// },
 	toBeObject(received: unknown): MatchResult {
 		const pass = typeof received === 'object' && received !== null;
 		return {
@@ -136,24 +122,23 @@ const customMatchers = {
 expect.extend(customMatchers);
 
 declare module 'vitest' {
-	type Assertion<T = any> = {
+	// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+	interface Assertion<T = any> {
 		toBeString(): T;
-		// toBeTrue(): T;
-		// toBeFalse(): T;
 		toBeObject(): T;
 		toBeArrayOfSize(expectedSize: number): T;
 		toBeAfter(expected: Date): T;
 		toBeBefore(expected: Date): T;
 		toReject(): Promise<T>;
-	};
-	type AsymmetricMatchersContaining = {
+	}
+
+	// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+	interface AsymmetricMatchersContaining {
 		toBeString(): void;
-		// toBeTrue(): void;
-		// toBeFalse(): void;
 		toBeObject(): void;
 		toBeArrayOfSize(expectedSize: number): void;
 		toBeAfter(expected: Date): void;
 		toBeBefore(expected: Date): void;
 		toReject(): Promise<void>;
-	};
+	}
 }

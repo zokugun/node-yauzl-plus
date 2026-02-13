@@ -1,8 +1,8 @@
 
 import { PassThrough, Readable } from 'node:stream';
+import * as fse from '@zokugun/fs-extra-plus';
 import { isPositiveIntegerOrZero } from '@zokugun/is-it-type';
-import { err, ok, type Result, stringifyError, xtry } from '@zokugun/xtry/async';
-import * as fse from 'fs-extra';
+import { err, ok, type Result, toStringFailure } from '@zokugun/xtry/async';
 import { SHIMMED_FS } from './utils/shimmed-fs.js';
 import { streamToBuffer } from './utils/stream-to-buffer.js';
 
@@ -209,7 +209,10 @@ export class FdReader extends Reader { // {{{
 
 	protected async _close(): Promise<Result<void, string>> { // {{{
 		if(this.fd) {
-			await fse.close(this.fd);
+			const closeResult = await fse.closeAsync(this.fd);
+			if(closeResult.fails) {
+				return toStringFailure(closeResult);
+			}
 		}
 
 		return ok();
@@ -220,21 +223,14 @@ export class FdReader extends Reader { // {{{
 			return err('File descriptor not open');
 		}
 
-		return new Promise((resolve) => {
-			const buffer = Buffer.allocUnsafe(length);
+		const buffer = Buffer.allocUnsafe(length);
 
-			fse.read(this.fd!, buffer, 0, length, start, (error, bytesRead) => {
-				if(error) {
-					resolve(err(stringifyError(error)));
-				}
-				else if(bytesRead === length) {
-					resolve(ok(buffer));
-				}
-				else {
-					resolve(err('Unexpected end of file'));
-				}
-			});
-		});
+		const readResult = await fse.readAsync(this.fd, buffer, 0, length, start);
+		if(readResult.fails) {
+			return toStringFailure(readResult);
+		}
+
+		return ok(buffer);
 	} // }}}
 
 	protected _createReadStream(start: number, length: number): Result<Readable, string> { // {{{
@@ -273,12 +269,12 @@ export class FileReader extends FdReader {
 	} // }}}
 
 	protected async _open(): Promise<Result<void, string>> { // {{{
-		const result = await xtry(fse.open(this.path, 'r', 0o444));
-		if(result.fails) {
-			return err(stringifyError(result.error));
+		const openResult = await fse.openAsync(this.path, 'r', 0o444);
+		if(openResult.fails) {
+			return toStringFailure(openResult);
 		}
 
-		this.fd = result.value;
+		this.fd = openResult.value;
 
 		return ok();
 	} // }}}
@@ -288,7 +284,10 @@ export class FileReader extends FdReader {
 			return err('File descriptor not open');
 		}
 
-		await fse.close(this.fd);
+		const closeResult = await fse.closeAsync(this.fd);
+		if(closeResult.fails) {
+			return toStringFailure(closeResult);
+		}
 
 		this.fd = null;
 

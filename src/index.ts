@@ -1,6 +1,6 @@
+import * as fse from '@zokugun/fs-extra-plus';
 import { isBoolean, isPositiveInteger, isRecord } from '@zokugun/is-it-type';
-import { err, ok, type Result } from '@zokugun/xtry';
-import * as fse from 'fs-extra';
+import { err, ok, toStringFailure, type Result } from '@zokugun/xtry';
 import { type Reader, FileReader, FdReader, BufferReader } from './reader.js';
 import { type ZipOptions } from './types.js';
 import { Zip } from './zip.js';
@@ -21,8 +21,12 @@ export async function open(path: string, options?: ZipOptions): Promise<Result<Z
 		return openResult;
 	}
 
-	const { size } = await fse.fstat(reader.fileDescriptor!);
+	const statResult = await fse.fstatAsync(reader.fileDescriptor!);
+	if(statResult.fails) {
+		return toStringFailure(statResult);
+	}
 
+	const { size } = statResult.value;
 	const zip = new Zip(reader, size, optionsResult.value);
 
 	const initResult = await zip.init();
@@ -49,8 +53,12 @@ export async function fromFd(fd: number, options?: ZipOptions): Promise<Result<Z
 		return openResult;
 	}
 
-	const { size } = await fse.fstat(fd);
+	const statResult = await fse.fstatAsync(fd);
+	if(statResult.fails) {
+		return toStringFailure(statResult);
+	}
 
+	const { size } = statResult.value;
 	const zip = new Zip(reader, size, optionsResult.value);
 
 	const initResult = await zip.init();

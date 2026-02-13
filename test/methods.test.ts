@@ -1,7 +1,7 @@
 import { join as pathJoin } from 'node:path';
 import { Readable } from 'node:stream';
+import * as fse from '@zokugun/fs-extra-plus';
 import { ok, type Result } from '@zokugun/xtry';
-import * as fse from 'fs-extra';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import * as yauzl from '../src/index.js';
 import { expectEntryValue } from './utils/expect-entry-value.js';
@@ -18,10 +18,10 @@ for(const filename of FILES) {
 		continue;
 	}
 
-	FILE_CONTENTS[filename] = fse.readFileSync(pathJoin(__dirname, 'fixtures/basic', filename), 'utf8');
+	FILE_CONTENTS[filename] = fse.readFileSync(pathJoin(__dirname, 'fixtures/basic', filename), 'utf8').value!;
 }
 
-const ZIP_BUFFER = fse.readFileSync(PATH);
+const ZIP_BUFFER = fse.readFileSync(PATH).value!;
 
 describe('.open()', () => {
 	defineTests('open', async () => yauzl.open(PATH));
@@ -38,7 +38,12 @@ describe('.fromFd()', () => {
 	let fd: number;
 
 	beforeEach(async () => {
-		fd = await fse.open(PATH, 'r');
+		const result = await fse.openAsync(PATH, 'r');
+		if(result.fails) {
+			throw result.error;
+		}
+
+		fd = result.value!;
 	});
 
 	defineTests('fromFd', async () => yauzl.fromFd(fd));

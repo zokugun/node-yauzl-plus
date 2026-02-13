@@ -3,6 +3,7 @@
 	"compilerOptions": {
 		/* Basic Options */
 		"rootDir": "..",								/* Specify the root directory of input files. */
+		"outDir": "../.test",
 
 		/* Source Map Options */
 		"sourceMap": true,								/* Create source map files for emitted JavaScript files. */
