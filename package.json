@@ -1,7 +1,7 @@
 {
 	"name": "@zokugun/yauzl-plus",
 	"description": "Promise-friendly, Result-first, fully typed ZIP steam reader",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"author": {
 		"name": "Baptiste Augrain",
 		"email": "daiyam@zokugun.org"
