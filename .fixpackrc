@@ -1,4 +1,7 @@
 {
+	"required": [
+		"dependencies"
+	],
 	"sortToTop": [
 		"name",
 		"displayName",
@@ -23,6 +26,7 @@
 		"dependencies",
 		"devDependencies",
 		"optionalDependencies",
+		"overrides",
 		"keywords"
 	],
 	"finalNewLine": true

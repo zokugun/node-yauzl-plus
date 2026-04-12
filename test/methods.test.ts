@@ -205,7 +205,6 @@ function defineTests(methodName: string, method: () => Promise<Result<yauzl.Zip,
 			beforeEach(async () => {
 				promise = zip.openReadStream(entry);
 				stream = expectResultValue(await promise);
-				// eslint-disable-next-line @typescript-eslint/no-empty-function
 				stream.on('error', () => {});
 			});
 
@@ -242,7 +241,6 @@ function defineTests(methodName: string, method: () => Promise<Result<yauzl.Zip,
 			beforeEach(async () => {
 				promise = zip.openReadStream(entry);
 				stream = expectResultValue(await promise);
-				// eslint-disable-next-line @typescript-eslint/no-empty-function
 				stream.on('error', () => {});
 			});
 

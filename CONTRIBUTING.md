@@ -35,6 +35,16 @@ Any Discussion which clearly identifies a problem and can be confirmed or reprod
 [Discussion]: https://github.com/zokugun/node-yauzl-plus/discussions
 [discussions]: https://github.com/zokugun/node-yauzl-plus/discussions
 
+## Use of AI
+
+We welcome use of AI tools to help draft discussions, issues, or code, but please follow these rules:
+
+- Use AI tools responsibly and disclose their use.
+- Ensure all content passes a human review for authenticity and quality.
+- Be concise. Do not write verbose discussions, issues or PR.
+
+Discussions, issues or PR that consist solely of unvetted AI outputs may be closed at the maintainer's discretion.
+
 ## I have a bug! / Something isn't working
 
 First, search the issue tracker and discussions for similar issues.<br />

@@ -1,39 +1,51 @@
 name: Publish Package
+
 on:
-  workflow_dispatch: null
+  workflow_dispatch: {}
   push:
     tags:
       - v*
+
 permissions:
   id-token: write   # NPM
   contents: write   # Release
+
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment: publish
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
+          persist-credentials: false
+
       - name: Get Version
         run: |
           # Get the latest tag
           LATEST_TAG=$(git tag --sort=-v:refname | head -n1)
+
           if [ -z "$LATEST_TAG" ]; then
             echo "No tags found in the repository"
             exit 1
           fi
+
           echo "VERSION=$LATEST_TAG" >> $GITHUB_ENV
           echo "Using version: $LATEST_TAG"
+
       - name: Check Existing Release
         run: |
           # Try to get the release information
-          RELEASE_INFO=$(gh release view ${{ env.VERSION }} --json assets,url 2>/dev/null || echo "")
+          RELEASE_INFO=$(gh release view ${VERSION} --json assets,url 2>/dev/null || echo "")
+
           if [ ! -z "$RELEASE_INFO" ]; then
             echo "Release exists"
             echo "RELEASE_EXISTS=yes" >> $GITHUB_ENV
+
             # Get the TGZ asset URL from the release
             TGZ_URL=$(echo $RELEASE_INFO | jq -r '.assets[] | select(.name | endswith(".tgz")) | .url')
+
             if [ ! -z "$TGZ_URL" ]; then
               echo "Found existing TGZ file"
               echo "TGZ_URL=$TGZ_URL" >> $GITHUB_ENV
@@ -44,41 +56,51 @@ jobs:
           fi
         env:
           GH_TOKEN: ${{ github.token }}
+
       - name: Download Existing TGZ
         if: env.RELEASE_EXISTS == 'yes' && env.TGZ_URL != ''
         run: |
-          gh api ${{ env.TGZ_URL }} --header 'Accept: application/octet-stream' > ${{ env.TGZ_NAME }}
-          echo "CHECKSUM=$(sha256sum ${{ env.TGZ_NAME }} | cut -d ' ' -f 1)" >> $GITHUB_ENV
+          gh api ${TGZ_URL} --header 'Accept: application/octet-stream' > ${TGZ_NAME}
+          echo "CHECKSUM=$(sha256sum ${TGZ_NAME} | cut -d ' ' -f 1)" >> $GITHUB_ENV
         env:
           GH_TOKEN: ${{ github.token }}
+
       - name: Setup Node.js
         if: env.RELEASE_EXISTS == 'no'
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
-          node-version: "24"
+          node-version: latest
           registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+
       - name: Build
         if: env.RELEASE_EXISTS == 'no'
         run: |
           npm ci
           npm pack
+
           TGZ_NAME=$(ls *.tgz)
           CHECKSUM=$(sha256sum $TGZ_NAME | cut -d ' ' -f 1)
+
           echo "TGZ_NAME=$TGZ_NAME" >> $GITHUB_ENV
           echo "CHECKSUM=$CHECKSUM" >> $GITHUB_ENV
           echo "$CHECKSUM" > "$TGZ_NAME.sha256"
+
       - name: Get Changelog
         if: env.RELEASE_EXISTS == 'no'
         run: |
-          CHANGELOG_ENTRY=$(node .github/scripts/get-changelog.js ${{ env.VERSION }})
+          CHANGELOG_ENTRY=$(node .github/scripts/get-changelog.js ${VERSION})
+
           # Properly handle multiline output in GitHub Actions
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+
           echo "CHANGELOG_ENTRY<<$EOF" >> $GITHUB_ENV
           echo "$CHANGELOG_ENTRY" >> $GITHUB_ENV
           echo "$EOF" >> $GITHUB_ENV
+
       - name: Release
         if: env.RELEASE_EXISTS == 'no'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2.6.1
         with:
           files: |
             ${{ env.TGZ_NAME }}
@@ -95,5 +117,6 @@ jobs:
             ```
             ${{ env.CHECKSUM }}
             ```
+
       - name: Publish to NPM Registry
-        run: npm publish --access=public
+        run: npm publish --provenance --access=public

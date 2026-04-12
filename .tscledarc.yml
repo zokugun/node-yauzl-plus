@@ -1,4 +1,5 @@
-entry: index.ts
+entry:
+  .: index.ts
 format:
   - esm
   - cjs

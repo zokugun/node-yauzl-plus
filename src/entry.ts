@@ -266,7 +266,6 @@ export class Entry {
 		}
 
 		if(streams.length > 1) {
-			// eslint-disable-next-line @typescript-eslint/no-empty-function
 			pipeline(streams, () => {});
 
 			stream = streams.at(-1) ?? stream;
