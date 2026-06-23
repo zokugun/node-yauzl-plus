@@ -1,5 +1,5 @@
 [@zokugun/yauzl-plus](https://github.com/zokugun/node-yauzl-plus)
-=======================================================
+=================================================================
 
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/@zokugun/yauzl-plus.svg?colorB=green)](https://www.npmjs.com/package/@zokugun/yauzl-plus)
@@ -15,16 +15,16 @@ About this project
 `@zokugun/yauzl-plus` is a TypeScript-first port and fork of [`overlookmotel/yauzl-promise`](https://github.com/overlookmotel/yauzl-promise). The upstream project provides a Promise wrapper over the battle-tested [`thejoshwolfe/yauzl`](https://github.com/thejoshwolfe/yauzl) ZIP reader. This repository rebuilds that API:
 
 - written entirely in TypeScript with strict types;
-- shipped as native ES modules.
+- shipped as CommonJS and native ES modules.
 
 Features
 --------
 
-- **Promise + Result-based API** – Every helper (`open`, `fromFd`, `fromBuffer`, `fromReader`) returns a [`Result`](https://www.npmjs.com/package/@zokugun/xtry) so you handle errors explicitly without exceptions.
-- **Streaming friendly** – Iterate entries one at a time via `zip.readEntry()` and stream their contents with back-pressure-aware `entry.openReadStream()`.
-- **Multi-source readers** – Open ZIPs from file paths, existing file descriptors, in-memory buffers, or custom `Reader` subclasses.
-- **Spec coverage** – Supports ZIP64 archives, Mac Archive Utility quirks, Central Directory validation, CRC32 checking, CP437/UTF-8 filename decoding, and DOS timestamp conversion.
-- **TypeScript ready** – Rich `.d.ts` declarations shipped in the package; strict options help you catch mistakes at compile time.
+- **Promise + Result-based API**: Every helper (`open`, `fromFd`, `fromBuffer`, `fromReader`) returns a [`Result`](https://www.npmjs.com/package/@zokugun/xtry) so you handle errors explicitly without exceptions.
+- **Streaming friendly**: Iterate entries one at a time via `zip.readEntry()` and stream their contents with back-pressure-aware `entry.openReadStream()`.
+- **Multi-source readers**: Open ZIPs from file paths, existing file descriptors, in-memory buffers, or custom `Reader` subclasses.
+- **Spec coverage**: Supports ZIP64 archives, Mac Archive Utility quirks, Central Directory validation, CRC32 checking, CP437/UTF-8 filename decoding, and DOS timestamp conversion.
+- **TypeScript ready**: Rich `.d.ts` declarations shipped in the package; strict options help you catch mistakes at compile time.
 
 Install
 -------
@@ -92,13 +92,13 @@ async function run(): Promise<Result<void, string>> {
 API overview
 ------------
 
-- `open(path, options?)` – open a ZIP from disk.
-- `fromFd(fd, options?)` – reuse an already opened file descriptor.
-- `fromBuffer(buffer, options?)` – treat any `Buffer` as a ZIP binary.
-- `fromReader(reader, size, options?)` – plug in your own `Reader` subclass (e.g., S3, HTTP).
-- `Zip` – exposes `readEntry()`, `close()`, and metadata about the archive.
-- `Entry` – read metadata (`filename`, `lastModDate`, `comment`), check `isEncrypted()` / `isCompressed()`, and stream data with `openReadStream()`.
-- Utilities – `dosDateTimeToDate`, `streamToBuffer`, `streamToString`, `validateFilename` for standalone usage.
+- `open(path, options?)`: open a ZIP from disk.
+- `fromFd(fd, options?)`: reuse an already opened file descriptor.
+- `fromBuffer(buffer, options?)`: treat any `Buffer` as a ZIP binary.
+- `fromReader(reader, size, options?)`: plug in your own `Reader` subclass (e.g., S3, HTTP).
+- `Zip`: exposes `readEntry()`, `close()`, and metadata about the archive.
+- `Entry`: read metadata (`filename`, `lastModDate`, `comment`), check `isEncrypted()` / `isCompressed()`, and stream data with `openReadStream()`.
+- Utilities: `dosDateTimeToDate`, `streamToBuffer`, `streamToString`, `validateFilename` for standalone usage.
 
 Refer to the TypeScript definitions in `lib/*.d.ts` or the source in `src/` for the complete surface area.
 
@@ -106,19 +106,19 @@ Refer to the TypeScript definitions in `lib/*.d.ts` or the source in `src/` for 
 
 `open`, `fromFd`, `fromBuffer`, and `fromReader` accept a `ZipOptions` object:
 
-- `decodeStrings` – decode CP437 / UTF-8 filenames to strings (default `true`).
-- `validateEntrySizes` – ensure streamed bytes match the header metadata.
-- `validateFilenames` & `strictFilenames` – reject unsafe paths or disallow relative components.
-- `supportMacArchive` – enable heuristics for ZIPs produced by Apple Archive Utility.
+- `decodeStrings`: decode CP437 / UTF-8 filenames to strings (default `true`).
+- `validateEntrySizes`: ensure streamed bytes match the header metadata.
+- `validateFilenames` & `strictFilenames`: reject unsafe paths or disallow relative components.
+- `supportMacArchive`: enable heuristics for ZIPs produced by Apple Archive Utility.
 
 All options default to the most defensive settings; pass `false` when you need raw access.
 
 ### `Entry.openReadStream(options?)`
 
-- `decompress` (`boolean | 'auto'`)  If `true`, only the Deflate method (`8`) is supported and `start`/`end` cannot be set.
-- `decrypt` (`boolean | 'auto'`) Decryption is not implemented yet, so enabling it returns an error.
-- `validateCrc32` (`boolean | 'auto'`) Cannot be combined with partial (`start`/`end`) reads.
-- `start` / `end` – byte offsets (`integers`) into the compressed stream.
+- `decompress` (`boolean | 'auto'`):  If `true`, only the Deflate method (`8`) is supported and `start`/`end` cannot be set.
+- `decrypt` (`boolean | 'auto'`): Decryption is not implemented yet, so enabling it returns an error.
+- `validateCrc32` (`boolean | 'auto'`): Cannot be combined with partial (`start`/`end`) reads.
+- `start` / `end`: byte offsets (`integers`) into the compressed stream.
 
 Development & testing
 ---------------------
